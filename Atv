@@ -1,0 +1,458 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define sucesso 0;
+#define MAX_NOME_ARQUIVO 100
+#define MAX_NOME 100
+#define MAX_EM_ARRAY 300
+#define MAX_ESCRITA_EM_ARQUIVO 300
+
+
+//funcao para criar o arquivo das questoes 1
+void AbrirArquivoQuestao1(){
+    FILE *q1;
+
+    q1 = fopen("arquivo_quest.txt", "w");
+
+    if (q1 == NULL)
+    {
+        printf("Por algum motivo o arquivo não pode ser aberto");
+    }else{
+        char Escrita_arquivo[MAX_ESCRITA_EM_ARQUIVO];
+
+        printf("Diga o que você quer escrever no arquivo: ");
+        getchar();
+        fgets(Escrita_arquivo, MAX_ESCRITA_EM_ARQUIVO, stdin);
+
+        fprintf(q1, "%s", Escrita_arquivo);
+    }
+    
+    fclose(q1);
+} 
+
+//funcao para criar o arquivo das questoes 2
+void AbrirArquivoQuestao2(){
+    FILE *q2;
+
+    q2 = fopen("arquivo_quest.txt", "w");
+
+    if (q2 == NULL)
+    {
+        printf("Por algum motivo o arquivo não pode ser aberto");
+    }else{
+        char Escrita_arquivo[MAX_ESCRITA_EM_ARQUIVO];
+        int inserir_nova_linha;
+
+        do{
+        printf("Diga o que você quer escrever no arquivo: ");
+        getchar();
+        fgets(Escrita_arquivo, MAX_ESCRITA_EM_ARQUIVO, stdin);
+
+        fprintf(q2, "%s \n", Escrita_arquivo);
+        
+        printf("inserir nova linha? 1 = sim || 0 = não");
+        scanf("%i", &inserir_nova_linha);
+        }while(inserir_nova_linha == 1);
+    }
+    
+    fclose(q2);
+} 
+
+//funcao para criar o arquivo da questao 3
+void AbrirArquivoQuestao3(){
+    FILE *q3;
+
+    q3 = fopen("arquivo_quest.txt", "w");
+
+    if (q3 == NULL)
+    {
+        printf("Por algum motivo o arquivo não pode ser aberto");
+    }else{
+        char Escrita_arquivo[MAX_ESCRITA_EM_ARQUIVO];
+
+        printf("Diga os numeros que você quer escrever no arquivo: ");
+        getchar();
+        fgets(Escrita_arquivo, MAX_ESCRITA_EM_ARQUIVO, stdin);
+
+        fprintf(q3, "%s", Escrita_arquivo);
+    }
+    
+    fclose(q3);
+}
+
+
+
+//Função para a questão 1
+void contarCaracteresArquivo()
+{
+    FILE *q1;
+
+    int contagem = 0;
+
+    q1 = fopen("arquivo_quest.txt", "r");
+
+    char c;
+
+    if (q1 == NULL)
+    {
+        printf("Não pode abrir arquivo");
+    }
+    else
+    {
+
+        while (!feof(q1))
+        {
+
+            fscanf(q1, "%c", &c);
+
+            if ((c != ' ') && (c != '\n'))
+            {
+                contagem++;
+            }
+        }
+
+        fclose(q1);
+    }
+    printf("O arquivo tem %d caracteres\n ", (contagem));
+}
+
+// Função para a Questão 2
+void contarLinhasArquivo()
+{
+    FILE *q2;
+
+    int contagem = 0;
+    q2 = fopen("arquivo_quest.txt", "r");
+
+    char d;
+
+    if (q2 == NULL){
+        printf("Não pode abrir o arquivo");
+    }else{
+
+        contagem = 0;
+        while (!feof(q2))
+        {
+            fscanf(q2, "%c", &d);
+
+            if (d == '\n'){
+                contagem ++;
+            }
+        }
+            printf("O arquivo tem %d linhas\n ", (contagem+1));
+    }
+
+}
+
+// Função para a Questão 3
+void lerNumerosArquivo()
+{
+    FILE *q3;
+
+    q3 = fopen("arquivo_quest.txt", "r");
+
+    int i;
+
+     if (q3 == NULL){
+        printf("Não pode abrir o arquivo");
+    }else{
+       
+        while (!feof(q3))
+        {
+            fscanf(q3, "%i", &i);
+            printf("   | Numero: %i", i);
+
+        }
+    }
+    printf("\n");
+}
+
+// Função para a Questão 4
+void escreverArquivoUsuario()
+{
+    FILE *q4;
+    q4 = fopen("arquivo_quest4.txt", "a");
+
+    if (q4 == NULL){
+        printf("Não pode abrir o arquivo");
+    }else{
+
+        int matricula;
+        char nome[MAX_NOME];
+        char endereco[MAX_NOME];
+
+
+        printf("Olá, primeiro diga o Nome: ");
+        scanf("%s", nome);
+
+        printf("Muito bem, agora a matricula: ");
+        scanf("%i", &matricula);
+
+        printf("Otimo, agora por ultimo o endereço: ");
+        scanf("%s", endereco);
+
+        fprintf(q4, "Nome-> %s |Matricula-> %i |Endereço-> %s\n", nome, matricula, endereco );
+
+        fclose(q4);
+
+        printf("\n");
+
+}
+}
+
+//Função para a Questão 5
+void NumerosInteirosEmUmArquivoBinario()
+{
+    FILE *q5;
+    q5 = fopen("arquivo_quest5.bin", "ab");
+
+    if (q5 == NULL){
+        printf("Não pode abrir o arquivo");
+    }else{
+
+        int *numero_escrito;
+        int i=1;
+
+        numero_escrito = (int *)malloc(i * sizeof(int));
+        printf("De um Numero inteiro positivo a ser escrito(Negativo para sair): ");
+        scanf("%i", &numero_escrito[i]);
+
+        while (numero_escrito[i]>0)
+        {
+            
+            fwrite(numero_escrito[i], sizeof(int), 1, q5);
+
+            i++;
+            numero_escrito = (int *)realloc(numero_escrito, i * sizeof(int));
+
+            printf("De um Numero inteiro positivo a ser escrito(Negativo para sair): ");
+            scanf("%d", &numero_escrito[i]);
+            
+        }
+     
+    }
+    
+    fclose(q5);
+    printf("\n");
+}
+
+//Função Questão 6
+void RetornarQuestao4emarray(){
+
+    FILE *q6;
+    q6 = fopen("arquivo_quest4.txt", "r");
+
+    if (q6 == NULL){
+        printf("Não pode abrir o arquivo");
+    }else{
+        int contagem;
+        char d;
+        contagem = 0;
+        while (!feof(q6))
+        {
+            fscanf(q6, "%c", &d);
+
+            if (d == '\n'){
+                contagem ++;
+            }
+        }
+
+        fseek(q6, 0, SEEK_SET);
+       
+       contagem = contagem + 2;
+        char dados_da_questao_4[contagem][MAX_EM_ARRAY];
+        int i = 0;
+        
+        printf("Dados da Questão 4: \n");
+
+       while(fgets(dados_da_questao_4[i], MAX_EM_ARRAY, q6) != NULL) {
+            
+        
+        printf("%s", dados_da_questao_4[i]);
+        i ++;
+        }      
+       fclose(q6);
+}
+    printf("\n");
+}
+
+//Função Questão 7
+void RetornarQuestao5emarray(){
+
+    FILE* q7;
+    int  i = 0;
+    int numero = 0;
+    int* num_array = 0;
+    int j = 0;
+
+
+
+        q7 = fopen("arquivo_quest5.bin", "rb");
+
+
+        if (q7 == NULL) {
+            printf("Nao foi possivel abrir o arquivo\n");
+
+        }
+        else {
+            
+            do {
+                fread(&numero, sizeof(int), 1, q7);
+                i++;
+                if (i == 1) {
+                    num_array = (int*)malloc(sizeof(int) * 1);
+                }
+                else {
+                    num_array = (int*)realloc(num_array, sizeof(int) * i);
+                }
+                num_array[i-1] = numero;
+            } while (feof(q7) == 0);
+            fclose(q7);
+            for (j = 0;j < i-1;j++) {
+                printf("%i\n", num_array[j]);
+            }
+        }
+
+}
+
+//Função Questão 8
+void AgendaSimples(){
+
+     FILE *q8;
+    q8 = fopen("arquivo_quest8.txt", "a+");
+
+    if (q8 == NULL){
+        printf("Não pode abrir o arquivo");
+    }else{
+       
+       
+    typedef struct usuario_a
+    {
+        char nome[MAX_NOME];
+        char endereco[MAX_NOME];
+        int matricula;
+    }usuario_t;
+
+
+    int escolha = 0;
+    int i = 0;
+    int contagem;
+    char d;
+
+    usuario_t * usuario = (struct usuario *)malloc(i * sizeof(usuario));
+
+    printf("1-Fazer um novo cadastro\n");
+    printf("2-Listar Todos cadastros existentes\n");
+    scanf("%i", &escolha);
+
+    switch (escolha)
+    {
+    case 1:
+
+        i++;
+
+        usuario = (struct usuario *)realloc(usuario, i * sizeof(usuario));
+    
+        printf("Olá, primeiro diga o Nome: ");
+        getchar();
+        fgets(usuario->nome, MAX_NOME, stdin);
+
+        printf("Muito bem, agora a matricula: ");
+        scanf("%i", &usuario->matricula);
+
+        printf("Otimo, agora por ultimo o endereço: ");
+        getchar();
+        fgets(usuario->endereco, MAX_NOME, stdin);
+
+        fprintf(q8, "Cadastro:  \n Nome: %s \n Matricula: %i \n Endereço: %s\n", usuario->nome, usuario->matricula, usuario->endereco);
+
+        break;
+    case 2:
+        
+        contagem = 0;
+        while (!feof(q8))
+        {
+            fscanf(q8, "%c", &d);
+
+            if (d == '\n'){
+                contagem ++;
+            }
+        }
+
+        fseek(q8, 0, SEEK_SET);
+       
+       contagem = contagem + 2;
+        char lista_usuarios[contagem][MAX_EM_ARRAY];
+        int i = 0;
+        
+        fseek(q8, 0, SEEK_SET); 
+
+        printf("Dados Dos usuarios cadastrados: \n");
+
+       while(fgets(lista_usuarios[i], MAX_EM_ARRAY, q8) != NULL) {
+            
+        
+        printf("%s", lista_usuarios[i]);
+        i ++;
+        }      
+       fclose(q8);
+}
+    printf("\n");
+}
+    }
+
+int main()
+{
+    int escolha = 0;
+    while (1)
+    {
+        printf("Escolha uma opção:\n");
+        printf("1. Contar caracteres de um arquivo.\n");
+        printf("2. Contar linhas de um arquivo.\n");
+        printf("3. Ler números de um arquivo e imprimir na tela.\n");
+        printf("4. Escrever nome, endereço e matrícula do usuário em um arquivo.\n");
+        printf("5. Ler números inteiros e escrever em um arquivo binário.\n");
+        printf("6. Ler os dados do arquivo da Questão 4 e retornar um array.\n");
+        printf("7. Ler os números do arquivo da Questão 5 e retornar um array.\n");
+        printf("8. Agenda simples.\n");
+        printf("0. Sair.\n");
+        scanf("%d", &escolha);
+
+        switch (escolha)
+        {
+        case 1:
+            AbrirArquivoQuestao1e2();
+            contarCaracteresArquivo();
+            break;
+        case 2:
+            AbrirArquivoQuestao1e2();
+            contarLinhasArquivo();
+            break;
+        case 3:
+            AbrirArquivoQuestao3();
+            lerNumerosArquivo();
+            break;
+        case 4:
+            escreverArquivoUsuario();
+            break;
+        case 5:
+            NumerosInteirosEmUmArquivoBinario();
+            break;
+        case 6:
+            RetornarQuestao4emarray();
+            break;
+        case 7:
+           RetornarQuestao5emarray();
+            break;
+        case 8:
+            AgendaSimples();
+            break;
+        case 0:
+            exit(0);
+        default:
+            printf("Opção inválida.\n");
+            exit(0);
+        }
+    }
+
+    return 0;
+}
